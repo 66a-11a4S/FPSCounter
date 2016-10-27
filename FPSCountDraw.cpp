@@ -1,7 +1,19 @@
-#include "FPSCounter.h"
-#include "DxLib.h"
+#include "FPSCountDraw.h"
+#include "FontTexture.h"
 
-void FPSCounter::Draw()
+FPSDrawer::FPSDrawer(FPSCounter& fpsCounter)
+    : _fpsCounter(fpsCounter)
 {
-    DrawFormatString(0, 0, GetColor(0x00, 0x00, 0x00), "fps : %.3f", _avarageFPS);
+}
+
+
+FPSDrawer::~FPSDrawer()
+{
+}
+
+
+void FPSDrawer::Draw()
+{
+    FontTexture::DrawString(Vector2D::zero, std::to_string(_fpsCounter.GetFPS()));
+    FontTexture::DrawString(Vector2D(0, 568), std::to_string(_fpsCounter.GetDeltaTime()));
 }
