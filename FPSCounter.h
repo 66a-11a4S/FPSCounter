@@ -9,26 +9,28 @@ public:
     ~FPSCounter();
 
     void Update();
-    void Draw();
 
     int GetCountingFrame() const { return _countingFrame; }
     double GetFPS() const { return _avarageFPS; }
+    static double GetDeltaTime() { return _deltaTime; }
 
 private:
 
-    //移動平均を適用するフレーム数
+    //遘ｻ蜍募ｹｳ蝮�繧帝←逕ｨ縺吶ｋ繝輔Ξ繝ｼ繝謨ｰ
     int _samplingFrame;
-    //計測開始から今までのフレーム数
+    //險域ｸｬ髢句ｧ九°繧我ｻ翫∪縺ｧ縺ｮ繝輔Ξ繝ｼ繝謨ｰ
     int _countingFrame;
 
-    //表示するFPS
+    //陦ｨ遉ｺ縺吶ｋFPS
     long double _avarageFPS;
-    //毎フレーム分カウントした値の総和
+    //豈弱ヵ繝ｬ繝ｼ繝蛻�繧ｫ繧ｦ繝ｳ繝医＠縺溷､縺ｮ邱丞柱
     long double _totalTime;
+    //蜑阪ヵ繝ｬ繝ｼ繝縺九ｉ縺ｮ邨碁℃譎る俣
+    static long double _deltaTime;
 
-    //前フレームでの時刻
+    //蜑阪ヵ繝ｬ繝ｼ繝縺ｧ縺ｮ譎ょ綾
     std::chrono::system_clock::time_point _beforeTime;
-    //現在フレームでの時刻
+    //迴ｾ蝨ｨ繝輔Ξ繝ｼ繝縺ｧ縺ｮ譎ょ綾
     std::chrono::system_clock::time_point _currentTime;
 };
 

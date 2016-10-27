@@ -1,6 +1,8 @@
 #include "FPSCounter.h"
 using namespace std::chrono;
 
+long double FPSCounter::_deltaTime = 0.0;
+
 FPSCounter::FPSCounter(int samplingFrame)
     : _samplingFrame(samplingFrame)
     , _countingFrame(0)
@@ -17,25 +19,27 @@ FPSCounter::~FPSCounter()
 
 void FPSCounter::Update()
 {
-    //‘OƒtƒŒ[ƒ€‚©‚ç‚±‚±‚Ü‚Å‚ÌŠÔ‚ğmicro•b‚ÅŒv‘ª
+    //å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã“ã“ã¾ã§ã®æ™‚é–“ã‚’microç§’ã§è¨ˆæ¸¬
     _currentTime = system_clock::now();
-    _totalTime += duration<long double, std::micro>(_currentTime - _beforeTime).count();
+    auto delta = duration<long double, std::micro>(_currentTime - _beforeTime).count();
+    _deltaTime = delta / 1000000; 
+    _totalTime += delta;
 
-    //Œv‘ªŠÔXV
+    //è¨ˆæ¸¬æ™‚é–“æ›´æ–°
     _beforeTime = _currentTime;
 
-    //ƒtƒŒ[ƒ€ƒJƒEƒ“ƒgXV
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ã‚¦ãƒ³ãƒˆæ›´æ–°
     _countingFrame++;
 
-    //ƒTƒ“ƒvƒŠƒ“ƒO”‚Ü‚Å’B‚µ‚½‚çÄŒvZ
+    //ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•°ã¾ã§é”ã—ãŸã‚‰å†è¨ˆç®—
     if (_countingFrame == _samplingFrame)
     {
-        //1ƒtƒŒ[ƒ€“–‚½‚è‚ÌŠÔ‚ğo‚µ‚Ä
+        //1ãƒ•ãƒ¬ãƒ¼ãƒ å½“ãŸã‚Šã®æ™‚é–“ã‚’å‡ºã—ã¦
         long double avarageTime = (_totalTime / _samplingFrame);
-        //ƒÊ(ƒ}ƒCƒNƒ) = 1.000.000
+        //Î¼(ãƒã‚¤ã‚¯ãƒ­) = 1.000.000
         _avarageFPS = 1000000 / (avarageTime);
 
-        //ƒtƒŒ[ƒ€ƒJƒEƒ“ƒ^‚ğƒŠƒZƒbƒg
+        //ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
         _countingFrame = 0;
         _totalTime = 0;
 
